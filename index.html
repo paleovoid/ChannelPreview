@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>YouTube Channel Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    color: #000; /* default text color */
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Dark Mode Styles */
+  body.dark-mode {
+    background: #181818;
+    color: #fff;
+  }
+
+  body.dark-mode .container {
+    background: #222;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+  }
+
+  body.dark-mode .sidebar {
+    background: #2a2a2a;
+    border-right: 1px solid #444;
+  }
+
+  body.dark-mode .channel-nav {
+    background: #2a2a2a;
+    border-top: 1px solid #444;
+  }
+
+  body.dark-mode .channel-nav ul li {
+    color: #bbb;
+  }
+
+  body.dark-mode .channel-nav ul li.active,
+  body.dark-mode .channel-nav ul li:hover {
+    color: #ffffff;
+    border-bottom: 3px solid #ffffff;
+  }
+
+  body.dark-mode .subscribe-btn {
+    background-color: #ffffff;
+    color: #000000;
+  }
+body.dark-mode .ad{
+  background-color:#181818;
+
+}
+  body.dark-mode .subscribe-btn:hover {
+    background-color: #ffffff;
+  }
+body.dark-mode .profile-pic {
+    margin-top: 70px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #2a2a2a;
+    background: #2a2a2a;
+    flex-shrink: 0;
+  }
+  .dark-toggle { /* ADDED */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 1000;
+    transition: background 0.3s ease;
+  }
+
+  .dark-toggle:hover {
+    background: #333;
+  }
+
+  /* Main content centered */
+  .content {
+    width: 800px;
+    margin: 0 120px;
+  }
+
+  /* Ads */
+  .ad {
+    position: fixed;
+    top: 0;
+    width: 160px;
+    height: 600px;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ad-left {
+    left: 0;
+  }
+
+  .ad-right {
+    right: 0;
+  }
+
+  .ad img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .container {
+    display: flex;
+    width: 1100px;
+    background: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+
+  .sidebar {
+    width: 300px;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: background 0.3s ease;
+  }
+
+  .preview {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .banner {
+    width: 100%;
+    height: 180px;
+    background: #333;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .profile-wrapper {
+    position: relative;
+    padding: 0 20px 20px 20px;
+  }
+
+  .profile-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: -60px;
+  }
+
+  .profile-pic {
+    margin-top: 70px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid white;
+    background: #ccc;
+    flex-shrink: 0;
+  }
+
+  .profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+  }
+
+  .channel-info {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .channel-info h1 {
+    margin: 10px 0 4px 0;
+    font-size: 26px;
+  }
+
+  .handle-subs-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .handle {
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .subs {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .description {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+  }
+
+  .subscribe-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
+  }
+
+  .subscribe-btn:hover {
+    background-color: #333;
+  }
+
+  .channel-nav {
+    border-top: 1px solid #ddd;
+    background: #f1f1f1;
+  }
+
+  .channel-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 25px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .channel-nav ul li {
+    padding: 14px 0;
+    cursor: pointer;
+    color: #606060;
+  }
+
+  .channel-nav ul li.active,
+  .channel-nav ul li:hover {
+    color: #000000;
+    border-bottom: 3px solid #000000;
+  }
+</style>
+</head>
+<body>
+     <!-- Left Ad -->
+  <div class="ad ad-left">
+    <img src="left-ad.jpg" alt="">
+  </div>
+
+<div class="container">
+  <div class="sidebar">
+    <h2>Customize Your Channel</h2>
+    <label>Channel Banner:</label>
+    <input type="file" id="bannerInput" accept="image/*" />
+    <label>Profile Picture:</label>
+    <input type="file" id="profileInput" accept="image/*" />
+    <label>Username:</label>
+    <input type="text" id="usernameInput" placeholder="Your channel name" />
+    <label>YouTube Handle:</label>
+    <input type="text" id="handleInput" placeholder="@yourhandle" />
+    <label>Description:</label>
+    <textarea id="descriptionInput" rows="4" placeholder="About your channel..."></textarea>
+    <label>Subscriber Count:</label>
+    <input type="text" id="subsInput" placeholder="e.g. 1.23M subscribers" />
+  </div>
+
+  <div class="preview">
+    <div class="banner" id="bannerPreview">
+      <img id="bannerImage" src="" alt="Banner Preview" />
+    </div>
+
+    <div class="profile-wrapper">
+      <div class="profile-section">
+        <div class="profile-pic">
+          <img id="profileImage" src="" alt="Profile Picture Preview" />
+        </div>
+        <div class="channel-info">
+          <h1 id="usernamePreview">Your Channel Name</h1>
+          <div class="handle-subs-row">
+            <span class="handle" id="handlePreview">@yourhandle</span>
+            &middot;
+            <span class="subs" id="subsPreview">1.23M subscribers</span>
+          </div>
+          <p class="description" id="descriptionPreview">This is your channel description.</p>
+          <button class="subscribe-btn">Subscribe</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="channel-nav">
+      <ul>
+        <li class="active">HOME</li>
+        <li>VIDEOS</li>
+        <li>PLAYLISTS</li>
+        <li>CHANNELS</li>
+        <li>ABOUT</li>
+      </ul>
+    </nav>
+  </div>
+</div>
+  <div class="ad ad-right">
+   <img src="" alt="">
+  </div>
+
+<!-- Dark Mode Button -->
+<button class="dark-toggle" id="darkToggle">Dark Mode</button>
+
+<script>
+  function _0xf1b5(_0x46c268,_0x5a39a3){const _0x4beaa1=_0x4bea();return _0xf1b5=function(_0xf1b500,_0x11b2aa){_0xf1b500=_0xf1b500-0x1d0;let _0x41db17=_0x4beaa1[_0xf1b500];return _0x41db17;},_0xf1b5(_0x46c268,_0x5a39a3);}const _0x41dba1=_0xf1b5;(function(_0xf2d495,_0x5f37de){const _0x4aa0b2=_0xf1b5,_0x3712dd=_0xf2d495();while(!![]){try{const _0x1b243f=-parseInt(_0x4aa0b2(0x1d9))/0x1+parseInt(_0x4aa0b2(0x1f5))/0x2+parseInt(_0x4aa0b2(0x1db))/0x3+parseInt(_0x4aa0b2(0x1ed))/0x4*(-parseInt(_0x4aa0b2(0x1eb))/0x5)+-parseInt(_0x4aa0b2(0x1ee))/0x6+parseInt(_0x4aa0b2(0x1ea))/0x7+parseInt(_0x4aa0b2(0x1df))/0x8*(-parseInt(_0x4aa0b2(0x1d2))/0x9);if(_0x1b243f===_0x5f37de)break;else _0x3712dd['push'](_0x3712dd['shift']());}catch(_0x516998){_0x3712dd['push'](_0x3712dd['shift']());}}}(_0x4bea,0xde7ef));const bannerInput=document[_0x41dba1(0x1e1)](_0x41dba1(0x1f7)),profileInput=document[_0x41dba1(0x1e1)]('profileInput'),usernameInput=document[_0x41dba1(0x1e1)](_0x41dba1(0x1d7)),handleInput=document[_0x41dba1(0x1e1)]('handleInput'),descriptionInput=document[_0x41dba1(0x1e1)](_0x41dba1(0x1e9)),subsInput=document[_0x41dba1(0x1e1)](_0x41dba1(0x1f1)),bannerImage=document['getElementById'](_0x41dba1(0x1d5)),profileImage=document[_0x41dba1(0x1e1)]('profileImage'),usernamePreview=document[_0x41dba1(0x1e1)](_0x41dba1(0x1e3)),handlePreview=document[_0x41dba1(0x1e1)](_0x41dba1(0x1ef)),descriptionPreview=document[_0x41dba1(0x1e1)]('descriptionPreview'),subsPreview=document[_0x41dba1(0x1e1)](_0x41dba1(0x1d3)),darkToggle=document[_0x41dba1(0x1e1)]('darkToggle');darkToggle['addEventListener'](_0x41dba1(0x1f0),()=>{const _0x3d0143=_0x41dba1;document['body'][_0x3d0143(0x1e2)][_0x3d0143(0x1d8)]('dark-mode'),darkToggle['textContent']=document[_0x3d0143(0x1e6)][_0x3d0143(0x1e2)][_0x3d0143(0x1e8)]('dark-mode')?_0x3d0143(0x1e4):_0x3d0143(0x1dd);});function loadImagePreview(_0x28c5d2,_0x2ffd14){const _0x1144f3=_0x41dba1,_0x19ae14=_0x28c5d2[_0x1144f3(0x1e5)][0x0];if(!_0x19ae14)return;const _0x320f73=new FileReader();_0x320f73['onload']=function(_0x5b9e35){const _0x65e244=_0x1144f3;_0x2ffd14['src']=_0x5b9e35['target'][_0x65e244(0x1f3)];},_0x320f73[_0x1144f3(0x1dc)](_0x19ae14);}function _0x4bea(){const _0xd74bc2=['click','subsInput','input','result','startsWith','2538390FaLdgp','value','bannerInput','change','replace','toFixed','12429iSFwdx','subsPreview','textContent','bannerImage','toString','usernameInput','toggle','263437OrSHKo','addEventListener','2809194QXhZiI','readAsDataURL','Dark\x20Mode','...','5432BmyBQA','length','getElementById','classList','usernamePreview','Light\x20Mode','files','body','0\x20subscribers','contains','descriptionInput','8528450sxFbja','114605iTdXEm','trim','164EEuIuY','2230218WCxPQz','handlePreview'];_0x4bea=function(){return _0xd74bc2;};return _0x4bea();}bannerInput[_0x41dba1(0x1da)]('change',()=>{loadImagePreview(bannerInput,bannerImage);}),profileInput[_0x41dba1(0x1da)](_0x41dba1(0x1f8),()=>{loadImagePreview(profileInput,profileImage);}),usernameInput[_0x41dba1(0x1da)](_0x41dba1(0x1f2),()=>{const _0x3a7369=_0x41dba1;usernamePreview[_0x3a7369(0x1d4)]=usernameInput[_0x3a7369(0x1f6)]||'Your\x20Channel\x20Name';}),handleInput[_0x41dba1(0x1da)](_0x41dba1(0x1f2),()=>{const _0x3427b3=_0x41dba1,_0x5452b2=handleInput[_0x3427b3(0x1f6)][_0x3427b3(0x1ec)]();handlePreview[_0x3427b3(0x1d4)]=_0x5452b2[_0x3427b3(0x1f4)]('@')||_0x5452b2===''?_0x5452b2||'@yourhandle':'@'+_0x5452b2;}),descriptionInput[_0x41dba1(0x1da)]('input',()=>{const _0x6c408f=_0x41dba1,_0x386610=0x4c;let _0x3e396a=descriptionInput['value'];_0x3e396a[_0x6c408f(0x1e0)]>_0x386610&&(_0x3e396a=_0x3e396a['slice'](0x0,_0x386610)+_0x6c408f(0x1de)),descriptionPreview[_0x6c408f(0x1d4)]=_0x3e396a;}),subsInput[_0x41dba1(0x1da)](_0x41dba1(0x1f2),()=>{const _0x3e7c=_0x41dba1,_0x7648e9=subsInput[_0x3e7c(0x1f6)][_0x3e7c(0x1d0)](/,/g,'')[_0x3e7c(0x1ec)](),_0x5097d1=Number(_0x7648e9);if(isNaN(_0x5097d1)||_0x5097d1<0x0){subsPreview[_0x3e7c(0x1d4)]=_0x3e7c(0x1e7);return;}function _0x194671(_0x2b7114){const _0x5ef94=_0x3e7c;if(_0x2b7114<0x3e8)return _0x2b7114[_0x5ef94(0x1d6)]();if(_0x2b7114<0xf4240)return(_0x2b7114/0x3e8)[_0x5ef94(0x1d1)](0x2)[_0x5ef94(0x1d0)](/\.?0+$/,'')+'K';return(_0x2b7114/0xf4240)[_0x5ef94(0x1d1)](0x2)[_0x5ef94(0x1d0)](/\.?0+$/,'')+'M';}const _0x568438=_0x194671(_0x5097d1);subsPreview[_0x3e7c(0x1d4)]=_0x568438+'\x20subscribers';});
+</script>
+
+</body>
+</html>
