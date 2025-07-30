@@ -37,7 +37,7 @@
   }
 
   body.dark-mode .container {
-    background: #222;
+    background:  #0f0f0f;
     box-shadow: 0 0 15px rgba(255,255,255,0.1);
   }
 
@@ -47,7 +47,7 @@
   }
 
   body.dark-mode .channel-nav {
-    background: #2a2a2a;
+    background:  #0f0f0f;
     border-top: 1px solid #444;
   }
 
@@ -73,13 +73,13 @@ body.dark-mode .ad{
     background-color: #ffffff;
   }
 body.dark-mode .profile-pic {
-    margin-top: 70px;
+    margin-top: 80px;
     width: 140px;
     height: 140px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid #2a2a2a;
-    background: #2a2a2a;
+    border: 4px solid  #0f0f0f;
+    background:  #0f0f0f;
     flex-shrink: 0;
   }
   .dark-toggle { /* ADDED */
@@ -106,7 +106,35 @@ body.dark-mode .profile-pic {
     width: 800px;
     margin: 0 120px;
   }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+  }
 
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .ad {
+    display: none; /* Hide ads on mobile */
+  }
+
+  .profile-section {
+    flex-direction: column;
+    align-items: center;
+    margin-top: -40px;
+    text-align: center;
+  }
+
+  .channel-info {
+    margin-top: 20px;
+    align-items: center;
+  }
+}
   /* Ads */
   .ad {
     position: fixed;
@@ -135,7 +163,7 @@ body.dark-mode .profile-pic {
 
   .container {
     display: flex;
-    width: 1100px;
+    width: 1363px;
     background: white;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     border-radius: 6px;
@@ -165,6 +193,8 @@ body.dark-mode .profile-pic {
     height: 180px;
     background: #333;
     position: relative;
+    border-radius: 15px;
+   
     overflow: hidden;
   }
 
@@ -188,7 +218,7 @@ body.dark-mode .profile-pic {
   }
 
   .profile-pic {
-    margin-top: 70px;
+    margin-top: 80px;
     width: 140px;
     height: 140px;
     border-radius: 50%;
@@ -206,7 +236,7 @@ body.dark-mode .profile-pic {
   }
 
   .channel-info {
-    margin-top: 60px;
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -282,7 +312,6 @@ body.dark-mode .profile-pic {
     border-bottom: 3px solid #000000;
   }
 </style>
-
 </head>
 <body>
      <!-- Left Ad -->
@@ -354,3 +383,4 @@ body.dark-mode .profile-pic {
 
 </body>
 </html>
+
